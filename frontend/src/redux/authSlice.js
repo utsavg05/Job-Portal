@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const BASE_URL = import.meta.env.MODE === "development" ? "https://jobseek-ete7.onrender.com/" : "/";
+// const BASE_URL = import.meta.env.MODE === "development" ? "https://jobseek-ete7.onrender.com/" : "/";
 
 const authSlice = createSlice({
     name: "auth",
