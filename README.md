@@ -27,16 +27,24 @@
 
 ## ⚙️ Getting Started
 
-### Clone the repo
-
+# 1. Clone the repository
 git clone https://github.com/utsavg05/Job-Portal.git
+cd zync
 
-Setup backend - 
-cd backend
+# 2. Install backend dependencies
 npm install
-npm run dev
 
-Setup frontend - 
-cd frontend
+# 3. Setup environment variables
+touch .env
+
+Add your secrets in .env:
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+
+# 4. Install frontend dependencies
+cd client
 npm install
+
+# 5. Run both client and server
+cd ..
 npm run dev
