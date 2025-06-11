@@ -27,6 +27,7 @@
 
 ## ⚙️ Getting Started
 
+```bash
 # 1. Clone the repository
 git clone https://github.com/utsavg05/Job-Portal.git
 cd zync
