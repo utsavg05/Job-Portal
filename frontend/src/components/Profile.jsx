@@ -66,7 +66,7 @@ const Profile = () => {
                                     {skill.toUpperCase()}
                                 </Badge>
                             ))
-                            : <span className="text-gray-400 text-sm">Not added</span>
+                            : <span className="text-gray-400 text-sm">No Skills added</span>
                         }
                     </div>
                 </div>

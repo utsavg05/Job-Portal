@@ -1,63 +1,5 @@
-// import React from 'react';
-// import {
-//   Table,
-//   TableBody,
-//   TableCaption,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow
-// } from './ui/table';
-// import { Badge } from './ui/badge';
-// import { useSelector } from 'react-redux';
-// import store from '../redux/store';
-
-// const AppliedJobsTable = () => {
-//   const {allAppliedJobs} = useSelector(store => store.job)
-  
-
-//   return (
-//     <div className="w-full bg-white p-6 rounded-md shadow-md">
-//       <Table>
-//         <TableCaption className="text-sm text-gray-500 mb-2">
-//           A list of your applied jobs
-//         </TableCaption>
-
-//         {/* Table Head */}
-//         <TableHeader>
-//           <TableRow>
-//             <TableHead className="text-left font-semibold">Date</TableHead>
-//             <TableHead className="text-left font-semibold">Job Role</TableHead>
-//             <TableHead className="text-left font-semibold">Company</TableHead>
-//             <TableHead className="text-right font-semibold">Status</TableHead>
-//           </TableRow>
-//         </TableHeader>
-
-//         {/* Table Body */}
-//         <TableBody>
-//            {
-//              allAppliedJobs <= 0 ? <span>You haven't applied for any job yet.</span> : allAppliedJobs.map((appliedJob) => (
-//               <TableRow key={appliedJob._id}>
-//                 <TableCell className="text-left">{appliedJob.createdAt.split("T")[0]}</TableCell>
-//                 <TableCell className="text-left">{appliedJob.job.title}</TableCell>
-//                 <TableCell className="text-left">{appliedJob.job.company.name}</TableCell>
-//                 <TableCell className="text-right">
-//                   <Badge className={`${appliedJob.status === 'rejected' ? 'bg-red-300 text-red-900' : appliedJob.status === 'pending' ? 'bg-purple-300 text-purple-700' : 'bg-green-300 text-green-900' }`}>{appliedJob?.status.toUpperCase()}</Badge>
-//                 </TableCell>
-//               </TableRow>
-//             ))
-//           }
-//         </TableBody>
-//       </Table>
-//     </div>
-//   );
-// };
-
-// export default AppliedJobsTable;
-
-
-
 import React from 'react';
+import { Badge } from './ui/badge';
 import {
   Table,
   TableBody,
@@ -67,7 +9,6 @@ import {
   TableHeader,
   TableRow
 } from './ui/table';
-import { Badge } from './ui/badge';
 import { useSelector } from 'react-redux';
 
 const AppliedJobsTable = () => {
@@ -85,56 +26,86 @@ const AppliedJobsTable = () => {
     }
   };
 
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '—';
+    const date = new Date(dateStr);
+    return new Intl.DateTimeFormat('en-IN', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    }).format(date);
+  };
+
   return (
-    <div className="w-full bg-white p-6 rounded-xl shadow border">
-      <Table>
-        <TableCaption className="text-sm text-gray-500 pt-2">
-          A list of jobs you've applied to
-        </TableCaption>
-
-        {/* Table Head */}
-        <TableHeader>
-          <TableRow>
-            <TableHead className="text-left text-gray-700 font-semibold">Date</TableHead>
-            <TableHead className="text-left text-gray-700 font-semibold">Job Role</TableHead>
-            <TableHead className="text-left text-gray-700 font-semibold">Company</TableHead>
-            <TableHead className="text-right text-gray-700 font-semibold pr-4">Status</TableHead>
-          </TableRow>
-        </TableHeader>
-
-        {/* Table Body */}
-        <TableBody>
-          {allAppliedJobs?.length > 0 ? (
-            allAppliedJobs.map((appliedJob) => (
-              <TableRow
-                key={appliedJob._id}
-                className="hover:bg-gray-50 transition-all border-b border-gray-100"
-              >
-                <TableCell className="py-4 text-sm text-gray-800">
-                  {appliedJob?.createdAt?.split('T')[0]}
-                </TableCell>
-                <TableCell className="text-sm text-gray-700">
-                  {appliedJob?.job?.title}
-                </TableCell>
-                <TableCell className="text-sm text-gray-700">
-                  {appliedJob?.job?.company?.name}
-                </TableCell>
-                <TableCell className="text-right pr-4">
-                  <Badge className={`text-xs font-medium px-3 py-1 rounded-full ${getStatusStyles(appliedJob?.status)}`}>
-                    {appliedJob?.status?.toUpperCase()}
-                  </Badge>
+    <div className="w-full">
+      {/* Table for larger screens */}
+      <div className="hidden md:block bg-white p-6 rounded-xl shadow border overflow-x-auto">
+        <Table>
+          <TableCaption className="text-sm text-gray-500 pt-2">
+            A list of jobs you've applied to
+          </TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-left">Date</TableHead>
+              <TableHead className="text-left">Job Role</TableHead>
+              <TableHead className="text-left">Company</TableHead>
+              <TableHead className="text-right pr-4">Status</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {allAppliedJobs?.length > 0 ? (
+              allAppliedJobs.map((appliedJob) => (
+                <TableRow
+                  key={appliedJob._id}
+                  className="hover:bg-gray-50 transition-all border-b border-gray-100"
+                >
+                  <TableCell>{formatDate(appliedJob?.createdAt)}</TableCell>
+                  <TableCell>{appliedJob?.job?.title || 'N/A'}</TableCell>
+                  <TableCell>{appliedJob?.job?.company?.name || 'N/A'}</TableCell>
+                  <TableCell className="text-right pr-4">
+                    <Badge className={`text-xs px-3 py-1 rounded-full ${getStatusStyles(appliedJob?.status)}`}>
+                      {appliedJob?.status?.toUpperCase() || 'PENDING'}
+                    </Badge>
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={4} className="text-center py-6 text-gray-500">
+                  You haven’t applied for any job yet.
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={4} className="text-center py-6 text-gray-500">
-                You haven’t applied for any job yet.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Card layout for mobile screens */}
+      <div className="md:hidden space-y-4">
+        {allAppliedJobs?.length > 0 ? (
+          allAppliedJobs.map((job) => (
+            <div key={job._id} className="bg-white p-4 rounded-xl shadow border space-y-2">
+              <div className="text-sm text-gray-600">
+                <span className="font-medium text-gray-800">Date:</span> {formatDate(job?.createdAt)}
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="font-medium text-gray-800">Role:</span> {job?.job?.title || 'N/A'}
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="font-medium text-gray-800">Company:</span> {job?.job?.company?.name || 'N/A'}
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="font-medium text-gray-800">Status:</span>{' '}
+                <Badge className={`text-xs px-2 py-1 rounded-full ${getStatusStyles(job?.status)}`}>
+                  {job?.status?.toUpperCase() || 'PENDING'}
+                </Badge>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-center text-gray-500 mt-6">You haven’t applied for any job yet.</div>
+        )}
+      </div>
     </div>
   );
 };
