@@ -51,7 +51,7 @@ const HeroSection = () => {
             />
             <Button 
               onClick={searchJobHandler} 
-              className="w-full h-[120] sm:w-auto rounded-b-lg sm:rounded-none sm:rounded-r-full bg-[#6A38C2] px-6 sm:px-7 py-3 sm:py-4 hover:bg-[#5730a3] transition-colors duration-200 font-medium"
+              className="w-full h-[100] sm:w-auto rounded-b-lg sm:rounded-none sm:rounded-r-full bg-[#6A38C2] px-6 sm:px-7 py-3 sm:py-4 hover:bg-[#5730a3] transition-colors duration-200 font-medium"
             >
               <Search className="h-4 w-4 sm:h-5 sm:w-5 text-white mr-2 sm:mr-0" />
               <span className="sm:hidden">Search Jobs</span>
